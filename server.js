@@ -32,6 +32,11 @@ const corsOptions = {
   credentials: true,
 };
 
+// Health check endpoint for Railway
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
