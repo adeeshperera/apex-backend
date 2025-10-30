@@ -54,12 +54,25 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, async () => {
-  console.log(`✓ Server running on port ${PORT}`);
-  try {
-    await seedServices();
-    console.log('✓ Services seeded successfully');
-  } catch (err) {
-    console.warn('Warning: Could not seed services:', err.message);
-  }
+app.get('/api', (req, res) => {
+  res.json({ 
+    message: 'Apex API Server',
+    status: 'running',
+    version: '1.0.0'
+  });
 });
+
+// Only start listening if not in serverless environment
+if (!process.env.VERCEL) {
+  app.listen(PORT, async () => {
+    console.log(`✓ Server running on port ${PORT}`);
+    try {
+      await seedServices();
+      console.log('✓ Services seeded successfully');
+    } catch (err) {
+      console.warn('Warning: Could not seed services:', err.message);
+    }
+  });
+}
+
+module.exports = app;
