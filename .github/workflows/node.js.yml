@@ -27,4 +27,4 @@ jobs:
         echo "${{ secrets.MONGODB_URI }}" > .env
         echo "${{ secrets.JWT_SECRET }}" > .env
         echo "${{ secrets.CORS_ORIGIN }}" > .env
-    - run: pm2 restart BackendAPI
+    - run: pm2 restart apiServer
