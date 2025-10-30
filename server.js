@@ -13,7 +13,11 @@ const buildRoutes = require('./routes/builds');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-connectDB();
+// Connect to database
+console.log('Starting database connection...');
+connectDB().catch(err => {
+  console.error('Failed to connect to database after retries:', err);
+});
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -51,6 +55,11 @@ app.get('/api/health', (req, res) => {
 });
 
 app.listen(PORT, async () => {
-  console.log(`Server running on port ${PORT}`);
-  await seedServices();
+  console.log(`✓ Server running on port ${PORT}`);
+  try {
+    await seedServices();
+    console.log('✓ Services seeded successfully');
+  } catch (err) {
+    console.warn('Warning: Could not seed services:', err.message);
+  }
 });
