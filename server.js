@@ -62,8 +62,8 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Only start listening if not in serverless environment
-if (!process.env.VERCEL) {
+// Only start listening if running locally (not serverless/Vercel)
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, async () => {
     console.log(`✓ Server running on port ${PORT}`);
     try {
@@ -75,4 +75,5 @@ if (!process.env.VERCEL) {
   });
 }
 
+// Export for Vercel serverless functions
 module.exports = app;
